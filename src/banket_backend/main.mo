@@ -16,13 +16,24 @@ import Person "person"
 // import Time "mo:base/Time";
 
 actor {
+  type Person = {
+      ID : Nat;
+      Name : Text;
+      Birthday : Text;
+      Phone : Text;
+      Sex : Bool;
+  }
     
-  stable var entries : [( Principal, Person)] = [];
+  // stable var entries : [( Principal, Person)] = [];
 
-  var favoriteNumber = HashMap.HashMap<Principal, Nat>(0, Principal.equal, Principal.hash);
+  var Customer_List = HashMap.HashMap<Principal, Person>(0, Principal.equal, Principal.hash);
   type FavorResult = {#ok : Text; #dup : Text};
   // type FavorResult<T,E> = Result.Result<T, E>;
 
+  // Read Account function
+  public query func read_Account() : async ?Person {
+        return(users.get(Customer_List));
+  };
 
   // dfx canister call day_3_backend add_favorite_number '(5)'
   public shared(caller) func add_favorite_number ( n : Nat ) : async FavorResult {
