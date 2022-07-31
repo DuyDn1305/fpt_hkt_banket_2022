@@ -28,29 +28,29 @@ actor {
 
   var customers = HashMap.HashMap<Principal, Person>(0, Principal.equal, Principal.hash);
   
-  type FavorResult = {#ok : Text; #dup : Text};
+  // type FavorResult = {#ok : Text; #dup : Text};
   // type FavorResult<T,E> = Result.Result<T, E>;
 
   // Function 1:  Read Account function
-  public query func read_Account() : async ?Person {
-        return(users.get(customers));
-  };
+  // public query func read_Account(principal : Principal) : async ?Person {
+  //       return(customers.get(principal));
+  // };
 
   // Function 2: Create Account
-  public shared(caller) func createAccount ( ID : Nat, Name : Text, Birthday : Text, Phone : Text, Sex : Bool ) : async () {
-    var person: Person = {
-      ID = ID;
-      Name = Name;
-      Birthday = Birthday;
-      Phone = Phone;
-      Sex = Sex;
-    };
-    switch (customers.get(caller.caller)) {
-      case null {
-        customers.put(caller.caller, person);
-      };
-    };
-  };
+  // public shared(caller) func createAccount ( ID : Nat, Name : Text, Birthday : Text, Phone : Text, Sex : Bool ) : async () {
+  //   var person: Person = {
+  //     ID = ID;
+  //     Name = Name;
+  //     Birthday = Birthday;
+  //     Phone = Phone;
+  //     Sex = Sex;
+  //   };
+  //   switch (customers.get(caller.caller)) {
+  //     case null {
+  //       customers.put(caller.caller, person);
+  //     };
+  //   };
+  // };
 
   // Function 3: Update Account function
 
