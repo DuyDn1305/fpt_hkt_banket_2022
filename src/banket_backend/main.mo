@@ -16,7 +16,7 @@ import Person "person"
 // import Time "mo:base/Time";
 
 actor {
-  type Person = {
+  public type Person = {
       ID : Nat;
       Name : Text;
       Birthday : Text;
@@ -30,10 +30,21 @@ actor {
   type FavorResult = {#ok : Text; #dup : Text};
   // type FavorResult<T,E> = Result.Result<T, E>;
 
-  // Read Account function
+  // Function 1:  Read Account function
   public query func read_Account() : async ?Person {
         return(users.get(Customer_List));
   };
+
+  // Function 3: Update Account function
+  public shared({caller}) func updateAccount(user : Profile) : async Result.Result<Text,Text> {
+        switch(users.get(caller)){
+            case(null) return #err("There is no user profile for principal : " # Principal.toText(caller));
+            case(?user) {
+                users.put(caller, user);
+                return #ok("Profile modified for user with principal : " # Principal.toText(caller));
+            };
+        };
+    };
 
   // dfx canister call day_3_backend add_favorite_number '(5)'
   public shared(caller) func add_favorite_number ( n : Nat ) : async FavorResult {
