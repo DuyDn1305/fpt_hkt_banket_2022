@@ -19,6 +19,18 @@ actor {
     
   stable var entries : [( Principal, Person)] = [];
 
+
+  public shared(caller) func createAccount ( n : Nat ) : async FavorResult {
+    switch (favoriteNumber.get(caller.caller)) {
+      case null {
+        favoriteNumber.put(caller.caller, n);
+        return #ok ("You've successfully registered your number");
+      };
+      case (_) {#dup ("You've already registered your number")}
+    }
+  };
+
+
   var favoriteNumber = HashMap.HashMap<Principal, Nat>(0, Principal.equal, Principal.hash);
   type FavorResult = {#ok : Text; #dup : Text};
   // type FavorResult<T,E> = Result.Result<T, E>;
