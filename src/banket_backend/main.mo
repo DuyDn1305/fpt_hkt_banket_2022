@@ -26,17 +26,6 @@ actor {
     
   // stable var entries : [( Principal, Person)] = [];
 
-  public shared(caller) func createAccount ( n : Nat ) : async FavorResult {
-    switch (favoriteNumber.get(caller.caller)) {
-      case null {
-        favoriteNumber.put(caller.caller, n);
-        return #ok ("You've successfully registered your number");
-      };
-      case (_) {#dup ("You've already registered your number")}
-    }
-  };
-
-
   var Customer_List = HashMap.HashMap<Principal, Person>(0, Principal.equal, Principal.hash);
   
   type FavorResult = {#ok : Text; #dup : Text};
@@ -46,6 +35,23 @@ actor {
   public query func read_Account() : async ?Person {
         return(users.get(Customer_List));
   };
+
+  //createAccount
+  public shared(caller) func createAccount ( ID : Nat, Name : Text, Birthday : Text, Phone : Text, Sex : Bool; ) : async () {
+    var person: Person = {
+      ID,
+      Name,
+      Birthday,
+      Phone,
+      Sex
+    };
+    switch (Customer_List.get(caller.caller)) {
+      case null {
+        Customer_List.put(caller.caller, Person);
+      };
+    }
+  };
+
 
   // dfx canister call day_3_backend add_favorite_number '(5)'
   public shared(caller) func add_favorite_number ( n : Nat ) : async FavorResult {
